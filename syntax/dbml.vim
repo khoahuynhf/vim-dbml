@@ -15,15 +15,26 @@ elseif exists("b:current_syntax")
     finish
 endif
 
-syn keyword dbmlKeyword Table Enum Indexes
-syn keyword dbmlBoolean false null true
-syn keyword dbmlType  blob bool boolean char character date datetime decimal
-syn keyword dbmlType  float json int integer long number numeric rowid
-syn keyword dbmlType  smallint real text timestamp varchar
+syn keyword dbmlKeyword Table table
+syn keyword dbmlKeyword Enum enum
+syn keyword dbmlKeyword Indexes indexes
+syn keyword dbmlKeyword TableGroup tablegroup Tablegroup
+
+syn keyword dbmlBoolean false null true nil
+
+" Numeric
+syn keyword dbmlType  tinyint int smallint mediumint bigint integer decimal serial smallserial bigserial
+syn keyword dbmlType  float double real long number numeric rowid bit bool boolean
 syn match dbmlType "int\(8\|16\|32\|64\|128\)"
 
+" Char
+syn keyword dbmlType  char varchar nvarchar character text blog binary varbinary string
+
+" Date datetime
+syn keyword dbmlType time timestamp date datetime interval
+
 " DBML Ref:
-syn match dbmlRef "[rR]ef:" nextgroup=dbmlRefOp,dbmlRefName skipwhite
+syn match dbmlRef "\v[rR]ef:" nextgroup=dbmlRefOp,dbmlRefName skipwhite
 syn match dbmlRefOp "\(<\|>\|-\)" nextgroup=dbmlRefName skipwhite
 syn match dbmlRefName "\h\w*\.\h\w*"
 
@@ -77,5 +88,6 @@ setlocal commentstring=//\ %s
 setlocal tabstop=2
 setlocal softtabstop=2
 setlocal shiftwidth=2
+setlocal expandtab
 
 let b:current_syntax = "dbml"

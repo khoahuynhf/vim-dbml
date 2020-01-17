@@ -33,8 +33,11 @@ syn keyword dbmlType  char varchar nvarchar character text blog binary varbinary
 " Date datetime
 syn keyword dbmlType time timestamp date datetime interval
 
+" JSON
+syn keyword dbmlType json jsonb
+
 " DBML Ref:
-syn match dbmlRef "\v[rR]ef:" nextgroup=dbmlRefOp,dbmlRefName skipwhite
+syn match dbmlRef "[rR]ef:" nextgroup=dbmlRefOp,dbmlRefName skipwhite
 syn match dbmlRefOp "\(<\|>\|-\)" nextgroup=dbmlRefName skipwhite
 syn match dbmlRefName "\h\w*\.\h\w*"
 
@@ -42,6 +45,10 @@ syn match dbmlRefName "\h\w*\.\h\w*"
 " It must be contained withing a dbmlSettingBlock
 syn match dbmlNote "[nN]ote:" contained nextgroup=dbmlNoteText skipwhite
 syn region dbmlNoteText start=/'/ end=/'/ oneline
+
+" DBML HeaderColor:
+syn match dbmlHeaderColor "[hH]eader[cC]olor:" contained nextgroup=dbmlHeaderColorText skipwhite
+syn region dbmlHeaderColorText start=/\v#/ end=/\v\x{6}|\x{3}/ oneline
 
 " Various Regions
 syn region dbmlColString start=/"/ skip=/\\"/ end=/"/ oneline
@@ -58,7 +65,7 @@ syn match dbmlFloat "[-+]\d\+.\d*"
 syn match dbmlComment "//.*$" contains=@Spell
 
 " Bracketed Settings
-syn region dbmlSettingBlock start="\[" end="\]" fold transparent contains=dbmlBoolean,dbmlNumber,dbmlFloat,dbmlString,dbmlExpression,dbmlNote,dbmlRef
+syn region dbmlSettingBlock start="\[" end="\]" fold transparent contains=dbmlBoolean,dbmlNumber,dbmlFloat,dbmlString,dbmlExpression,dbmlNote,dbmlRef,dbmlHeaderColor
 
 " Folding
 
@@ -67,22 +74,24 @@ if !exists('g:dbml_nofold_blocks')
 endif
 
 " Define the default highlighting.
-hi def link dbmlBlock       Block
-hi def link dbmlComment     Comment
-hi def link dbmlKeyword     Statement
-hi def link dbmlColString   Statement
-hi def link dbmlType        Type
-hi def link dbmlBoolean     Boolean
-hi def link dbmlNumber      Number
-hi def link dbmlFloat       Float
-hi def link dbmlBoolean     Special
-hi def link dbmlString      String
-hi def link dbmlExpression  Function
-hi def link dbmlNote        SpecialComment
-hi def link dbmlNoteText    SpecialComment
-hi def link dbmlRef         Macro
-hi def link dbmlRefOp       Macro
-hi def link dbmlRefName     Macro
+hi def link dbmlBlock               Block
+hi def link dbmlComment             Comment
+hi def link dbmlKeyword             Statement
+hi def link dbmlColString           Statement
+hi def link dbmlType                Type
+hi def link dbmlBoolean             Boolean
+hi def link dbmlNumber              Number
+hi def link dbmlFloat               Float
+hi def link dbmlBoolean             Special
+hi def link dbmlString              String
+hi def link dbmlExpression          Function
+hi def link dbmlNote                Special
+hi def link dbmlNoteText            SpecialComment
+hi def link dbmlHeaderColor         Special
+hi def link dbmlHeaderColorText     SpecialComment
+hi def link dbmlRef                 Macro
+hi def link dbmlRefOp               Macro
+hi def link dbmlRefName             Macro
 
 setlocal commentstring=//\ %s
 setlocal tabstop=2
